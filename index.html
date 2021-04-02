@@ -1,0 +1,21 @@
+<html>
+    <body>
+        <script src="qrcode.js"></script>
+        <script src="qrious.js"></script>
+        <script src="secrets.js"></script>
+        <script src="config.js"></script>
+        <script src="combinations.js"></script>
+        <h2>secrets</h2>
+        <textarea id="secrets" rows="20" cols="80" onchange="onChange()"></textarea>
+        <h2>config</h2>
+        <textarea id="config" rows="20" cols="80" onchange="onChange()"></textarea>
+        <h2>decrypt informations (save this with the encrypted zips)</h2>
+        <textarea id="decryptInformations" rows="20" cols="80"></textarea>
+        <h2>temporary output</h2>
+        <textarea id="output" rows="20" cols="80"></textarea>
+        <h2>batchfile for zips</h2>
+        <textarea id="batchfile" rows="20" cols="80"></textarea>
+        <script src="app.js"></script>
+        <div id="qrcodes" style="text-align: center; width: 100%;"></div>
+    </body>
+</html>

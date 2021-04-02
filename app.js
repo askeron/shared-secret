@@ -28,12 +28,12 @@ function getRandomHexBytes(bytesCount) {
 async function getSha384HexString(string) {
     const msgUint8 = new TextEncoder().encode(string);                            // encode as (utf-8) Uint8Array
     const hashBuffer = await crypto.subtle.digest('SHA-384', msgUint8);           // hash the message
-    /*
+    ///*
     const hashArray = Array.from(new Uint8Array(hashBuffer));                     // convert buffer to byte array
     const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join(''); // convert bytes to hex string
     return hashHex;
-    */
-    return Buffer.from(new Uint8Array(hashBuffer)).toString('hex')
+    //*/
+    //return Buffer.from(new Uint8Array(hashBuffer)).toString('hex')
 }
 
 function sortBy(array, mapFunction) {
@@ -91,28 +91,42 @@ async function onChange() {
 
         for (x of combinedKeys) {
             const div = document.createElement("div")
-            div.style = "min-height: 1px; max-width: 500px; page-break-before: always; text-align: center"
-            const title = document.createElement("h3")
+            div.style = "min-height: 1px; page-break-before: always; text-align: center; display: grid; max-height: 1300px;"
+            +"grid-gap: 10px;"
+            +"grid-template-areas:"
+            +"\"title  title  title\""
+            +"\"keylabel1  keylabel1  keylabel1\""
+            +"\"keylabel3  image  keylabel4\""
+            +"\"keylabel2  keylabel2  keylabel2\";"
+            const title = document.createElement("h2")
+            title.style = "grid-area: title"
             title.innerText = "Key "+x.pseudonym+" - "+x.name
-            /*
-            new QRCode(div, {
-                text: x.pseudonym+"-"+x.secret,
-                width: 512,
-                height: 512,
-                colorDark : "#000000",
-                colorLight : "#ffffff",
-                correctLevel : QRCode.CorrectLevel.H
-            })
-            */
+            const keylabel1 = document.createElement("div")
+            const keylabel2 = document.createElement("div")
+            const keylabel3 = document.createElement("div")
+            const keylabel4 = document.createElement("div")
+            keylabel1.innerText = "Pseudonym: "+x.pseudonym+" - Secret: "+x.secret
+            keylabel2.innerText = "Pseudonym: "+x.pseudonym+" - Secret: "+x.secret
+            keylabel3.innerText = "Pseudonym: "+x.pseudonym+" - Secret: "+x.secret
+            keylabel4.innerText = "Pseudonym: "+x.pseudonym+" - Secret: "+x.secret
+            keylabel1.style = "grid-area: keylabel1; font-size: xxx-large; transform: rotate(0deg); font-weight: bold"
+            keylabel2.style = "grid-area: keylabel2; font-size: xxx-large; transform: rotate(180deg); font-weight: bold;"
+            keylabel3.style = "grid-area: keylabel3; font-size: xxx-large; transform: rotate(180deg); font-weight: bold; word-wrap: break-word; writing-mode : vertical-rl"
+            keylabel4.style = "grid-area: keylabel4; font-size: xxx-large; transform: rotate(0deg);  font-weight: bold; word-wrap: break-word; writing-mode : vertical-rl"
             const image = document.createElement("img")
             image.src = new QRious({
                 value: x.pseudonym+"-"+x.secret,
                 level: 'H',
-                padding: 20,
-                size: 400,
+                padding: 45,
+                size: 900,
             }).toDataURL()
+            image.style = "grid-area: image"
             div.appendChild(title)
+            div.appendChild(keylabel1)
+            div.appendChild(keylabel3)
             div.appendChild(image)
+            div.appendChild(keylabel4)
+            div.appendChild(keylabel2)
             document.getElementById("qrcodes").appendChild(div)
         }
     }

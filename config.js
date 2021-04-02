@@ -9,7 +9,7 @@ let config = {
             "pseudonym": "37caa23a",
         },
         {
-            "name": "Margot Printz",
+            "name": "Margot",
             "pseudonym": "455e34dd",
             "group": "Gruppe 1",
         },
@@ -24,11 +24,11 @@ let config = {
                 ],
                 [
                     "Sven",
-                    "Margot Printz",
+                    "Margot",
                 ],
                 [
                     "Bjoern",
-                    "Margot Printz",
+                    "Margot",
                 ],
             ],
         },

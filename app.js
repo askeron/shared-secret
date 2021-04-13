@@ -91,28 +91,24 @@ async function onChange() {
 
         for (x of combinedKeys) {
             const div = document.createElement("div")
-            div.style = "min-height: 1px; page-break-before: always; text-align: center; display: grid; max-height: 1300px;"
-            +"grid-gap: 10px;"
-            +"grid-template-areas:"
-            +"\"title  title  title\""
-            +"\"keylabel1  keylabel1  keylabel1\""
-            +"\"keylabel3  image  keylabel4\""
-            +"\"keylabel2  keylabel2  keylabel2\";"
-            const title = document.createElement("h2")
-            title.style = "grid-area: title"
-            title.innerText = "Key "+x.pseudonym+" - "+x.name
+            div.classList.add("key")
             const keylabel1 = document.createElement("div")
             const keylabel2 = document.createElement("div")
             const keylabel3 = document.createElement("div")
             const keylabel4 = document.createElement("div")
-            keylabel1.innerText = "Pseudonym: "+x.pseudonym+" - Secret: "+x.secret
-            keylabel2.innerText = "Pseudonym: "+x.pseudonym+" - Secret: "+x.secret
-            keylabel3.innerText = "Pseudonym: "+x.pseudonym+" - Secret: "+x.secret
-            keylabel4.innerText = "Pseudonym: "+x.pseudonym+" - Secret: "+x.secret
-            keylabel1.style = "grid-area: keylabel1; font-size: xxx-large; transform: rotate(0deg); font-weight: bold"
-            keylabel2.style = "grid-area: keylabel2; font-size: xxx-large; transform: rotate(180deg); font-weight: bold;"
-            keylabel3.style = "grid-area: keylabel3; font-size: xxx-large; transform: rotate(180deg); font-weight: bold; word-wrap: break-word; writing-mode : vertical-rl"
-            keylabel4.style = "grid-area: keylabel4; font-size: xxx-large; transform: rotate(0deg);  font-weight: bold; word-wrap: break-word; writing-mode : vertical-rl"
+            const keylabelHtml = "Pseudonym: "+x.pseudonym+" - Secret: <br>"+ (x.secret.replace(" ","<br/>"))
+            keylabel1.innerHTML = keylabelHtml
+            keylabel2.innerHTML = keylabelHtml
+            keylabel3.innerHTML = keylabelHtml
+            keylabel4.innerHTML = keylabelHtml
+            keylabel1.classList.add("keylabel")
+            keylabel2.classList.add("keylabel")
+            keylabel3.classList.add("keylabel")
+            keylabel4.classList.add("keylabel")
+            keylabel1.classList.add("keylabel1")
+            keylabel2.classList.add("keylabel2")
+            keylabel3.classList.add("keylabel3")
+            keylabel4.classList.add("keylabel4")
             const image = document.createElement("img")
             image.src = new QRious({
                 value: x.pseudonym+"-"+x.secret,
@@ -120,8 +116,7 @@ async function onChange() {
                 padding: 45,
                 size: 900,
             }).toDataURL()
-            image.style = "grid-area: image"
-            div.appendChild(title)
+            image.classList.add("image")
             div.appendChild(keylabel1)
             div.appendChild(keylabel3)
             div.appendChild(image)

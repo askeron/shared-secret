@@ -1,0 +1,46 @@
+.key {
+    min-height: 1px;
+    page-break-before: always;
+    align-items: center;
+    justify-items: center;
+    display: grid;
+    grid-gap: 10px;
+    grid-template-columns: 1fr 5fr 1fr;
+    grid-template-areas:
+    "keylabel1  keylabel1  keylabel1"
+    "keylabel3  image  keylabel4"
+    "keylabel2  keylabel2  keylabel2";
+}
+
+.title {
+    grid-area: title;
+}
+
+.keylabel {
+    font-size: xxx-large;
+    font-weight: bold;
+}
+
+.keylabel1 {
+    grid-area: keylabel1;
+    transform: rotate(0deg);
+}
+
+.keylabel2 {
+    grid-area: keylabel2;
+    transform: rotate(180deg);
+}
+
+.keylabel3 {
+    grid-area: keylabel3;
+    transform: rotate(180deg);
+    word-wrap: break-word;
+    writing-mode : vertical-rl;
+}
+
+.keylabel4 {
+    grid-area: keylabel4;
+    transform: rotate(0deg);
+    word-wrap: break-word;
+    writing-mode : vertical-rl;
+}

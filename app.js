@@ -19,10 +19,32 @@ function stringToUint(string) {
     }
     return new Uint8Array(uintArray)
 }
+
 function getRandomHexBytes(bytesCount) {
     const array = new Uint8Array(bytesCount);
     window.crypto.getRandomValues(array);
-    return Buffer.from(uint8).toString('hex')
+    return uint8Array2hex(array)
+}
+
+function uint8Array2hex(uint8Array) {
+    return [...uint8Array].map(x => x.toString(16).padStart(2, '0')).join('');
+}
+
+function splitStringAfter32Character(text) {
+    return text.match(/.{1,32}/g)
+}
+
+function addNewRandomSecret() {
+    const pseudonym = getRandomHexBytes(4)
+    const secret = getRandomHexBytes(32)
+    secrets = JSON.parse(document.getElementById("secrets").value)
+    if (secrets.some(x => x.secret === secret)) {
+        addNewRandomSecret()
+    } else {
+        secrets.push({pseudonym, secret})
+        document.getElementById("secrets").value = JSON.stringify(secrets, null, 2)
+        onChange()
+    }
 }
 
 async function getSha384HexString(string) {
@@ -55,7 +77,7 @@ async function onChange() {
             x.key = undefined
         })
         decryptInformations.combinations = combinationModule(config.keys).getCombinationsForRootCombinations(config.combinations)
-        decryptInformations.readme = "Jeder Key hat ein Pseudonym von 8-Hex-Chars und einen "
+        decryptInformations.readme = "Jeder Key hat ein Pseudonym von 8-Hexchars und ein Secret von 64-Hexchars. Die 7z-Dateien heißen z.b. 'encrypted-SHA-384-37caa23a-455e34dd-516da482.7z'. Da heißt, dass man diese Datei entschlüssel kann in dem man die Secrets der drei Key 37caa23a, 455e34dd und 516da482 genau in der Reinfolge hintereinander schreibt (also in dem fall 192 Hexchars) und diese dann mit SHA-384 hasht und das Ergebnis sich wieder in Hex ausgeben läßt. Das ist dann das Passwort um die 7z-Datei zu entpacken."
         document.getElementById("decryptInformations").value = JSON.stringify(decryptInformations, null, 1)
         const combinedKeys = JSON.parse(JSON.stringify(config.keys))
         for (x of combinedKeys) {
@@ -96,7 +118,7 @@ async function onChange() {
             const keylabel2 = document.createElement("div")
             const keylabel3 = document.createElement("div")
             const keylabel4 = document.createElement("div")
-            const keylabelHtml = "Pseudonym: "+x.pseudonym+" - Secret: <br>"+ (x.secret.replace(" ","<br/>"))
+            const keylabelHtml = "Pseudonym: "+x.pseudonym+" - Secret: <br>"+ (splitStringAfter32Character(x.secret).join('<br/>'))
             keylabel1.innerHTML = keylabelHtml
             keylabel2.innerHTML = keylabelHtml
             keylabel3.innerHTML = keylabelHtml
@@ -114,7 +136,7 @@ async function onChange() {
                 value: x.pseudonym+"-"+x.secret,
                 level: 'H',
                 padding: 45,
-                size: 900,
+                size: 800,
             }).toDataURL()
             image.classList.add("image")
             div.appendChild(keylabel1)
@@ -126,6 +148,6 @@ async function onChange() {
         }
     }
 }
-document.getElementById("secrets").value = JSON.stringify(secrets, null, 1)
-document.getElementById("config").value = JSON.stringify(config, null, 1)
+document.getElementById("secrets").value = JSON.stringify(secrets, null, 2)
+document.getElementById("config").value = JSON.stringify(config, null, 2)
 onChange()

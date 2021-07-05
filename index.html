@@ -2,9 +2,9 @@
     <body>
         <link rel="stylesheet" href="style.css"/>
         <h1>Shared Secret</h1>
-        <h2>TODO: pseudonym to id</h2>
-        <h2>TODO: checksum over id and secret</h2>
-        <h2>TODO: divide key in the middle</h2>
+        <h2>TODO: write tests for combinations.js</h2>
+        <h2>TODO: fix bugs in combinations.js</h2>
+        <h2>TODO: decrypt.html</h2>
         <script src="qrcode.js"></script>
         <script src="qrious.js"></script>
         <script src="secrets.js"></script>
@@ -12,6 +12,8 @@
         <script src="combinations.js"></script>
         <h2>secrets</h2>
         <textarea id="secrets" rows="20" cols="80" onchange="onChange()"></textarea>
+        <br/>
+        <button onclick="addNewRandomSecret()">add new random secret</button>
         <h2>config</h2>
         <textarea id="config" rows="20" cols="80" onchange="onChange()"></textarea>
         <h2>decrypt informations (save this with the encrypted zips)</h2>

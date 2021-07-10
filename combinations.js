@@ -87,24 +87,8 @@ function combinationModule() {
     }
 
     function getAndCombinedCombinations(combinations1, combinations2) {
-        const combinations = [];
-        for (const combination1 of combinations1) {
-            for (const combination2 of combinations2) {
-                let combination = [];
-                for (const x of combination1) {
-                    combination.push(x)
-                }
-                for (const x of combination2) {
-                    combination.push(x)
-                }
-                if (!hasArrayDuplicates(combination)) {
-                    combinations.push(combination);
-                }
-            }
-        }
-        return getCleanedUpCombinations(combinations);
+        return getCleanedUpCombinations(combinations1.flatMap(x => combinations2.map(y => x.concat(y))).filter(x => !hasArrayDuplicates(x)))
     }
-
 
     function getCleanedUpCombinations(inputCombinations) {
         const distinctAndSortedCombinations = getDistinctElementsSorted(
@@ -143,6 +127,9 @@ function combinationModule() {
 
     return {
         getCombinationsForRootCombinations,
-        areKeysValid
+        areKeysValid,
+        forTestingOnly: {
+            getAndCombinedCombinations,
+        }
     }
 }

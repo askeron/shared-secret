@@ -16,8 +16,21 @@ function assertError(runnable, expectedErrorMessage) {
     }
 }
 
+assertEqualObject(combinationModule().forTestingOnly.getAndCombinedCombinations(
+    [["A"],["B"],["C"]],
+    [["1"],["2"],["3"]],
+    ).map(x => x.join("")).join(","), "1A,1B,1C,2A,2B,2C,3A,3B,3C")
+assertEqualObject(combinationModule().forTestingOnly.getAndCombinedCombinations(
+    [["A"],["B"],["C"]],
+    [["B"],["1"],["1"],["2"],["3"]],
+    ).map(x => x.join("")).join(","), "1A,1B,1C,2A,2B,2C,3A,3B,3C,AB,BC")
+assertEqualObject(combinationModule().forTestingOnly.getAndCombinedCombinations(
+    [["A"],["B"],["C"]],
+    [["A"],["B"],["C"]],
+    ).map(x => x.join("")).join(","), "AB,AC,BC")
 
 
+    
 assertEqualObject(combinationModule().areKeysValid([]), true)
 assertEqualObject(combinationModule().areKeysValid([{
     name: "Key A",

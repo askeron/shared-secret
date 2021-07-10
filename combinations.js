@@ -1,10 +1,6 @@
 function combinationModule() {
     function areKeysValid(keys) {
-        return !hasArrayDuplicates(getAllKeyNames(keys)) && !hasArrayDuplicates(keys.map(x => x.pseudonym))
-    }
-
-    function getAllKeyNames(keys) {
-        return keys.map(x => x.name);
+        return !hasArrayDuplicates(keys.map(x => x.name)) && !hasArrayDuplicates(keys.map(x => x.pseudonym))
     }
 
     function hasArrayDuplicates(inputArray) {
@@ -34,7 +30,7 @@ function combinationModule() {
         } else if (rootCombination.type === "elementsAndAmountsCombinations") {
             return getCombinationsForElementsAndAmountsCombinationsObject(rootCombination);
         } else {
-            throw "unknown rootCombination.type";
+            throw new Error("unknown rootCombination.type");
         }
     }
 
@@ -47,21 +43,17 @@ function combinationModule() {
                 for (const keyName of element.keyNames) {
                     keyNames.push(keyName)
                 }
-            } else if (element.type === "group") {
-                for (const key of keys.filter(key => key.group === element.group)) {
-                    keyNames.push(key.name);
-                }
             } else {
-                throw "unknown elementsAndAmountsCombinationsObject.elements.type";
+                throw new Error("unknown elementsAndAmountsCombinationsObject.elements.type");
             }
             elementsKeyNames.push(keyNames);
         }
         for (const validAmountCombination of elementsAndAmountsCombinationsObject.validAmountCombinations) {
             if (validAmountCombination.length === 0) {
-                throw "validAmountCombination.length === 0";
+                throw new Error("validAmountCombination.length === 0");
             }
             if (elementsAndAmountsCombinationsObject.elements.length != validAmountCombination.length) {
-                throw "elementsAndAmountsCombinationsObject.elements.length != validAmountCombination.length";
+                throw new Error("elementsAndAmountsCombinationsObject.elements.length != validAmountCombination.length");
             }
             let combinationsForThisEntry = undefined;
             for (let i = 0; i < validAmountCombination.length; i++) {
@@ -80,14 +72,14 @@ function combinationModule() {
                     combinations.push(x);
                 }
             }
-            console.log("combinations for "+validAmountCombination+": "+JSON.stringify(combinationsForThisEntry));
+            //console.log("combinations for "+validAmountCombination+": "+JSON.stringify(combinationsForThisEntry));
         }
         return getCleanedUpCombinations(combinations);
     }
 
     function getCombinationsFromKeyNamesAndCount(keyNames, count) {
         if (count === 0) {
-            throw "count === 0";
+            throw new Error("count === 0");
         }
         const keyNamesCombinations = keyNames.map(x => [x]);
         let result = keyNamesCombinations.slice();

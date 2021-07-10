@@ -30,7 +30,7 @@ assertEqualObject(combinationModule().forTestingOnly.getAndCombinedCombinations(
     ).map(x => x.join("")).join(","), "AB,AC,BC")
 
 
-    
+
 assertEqualObject(combinationModule().areKeysValid([]), true)
 assertEqualObject(combinationModule().areKeysValid([{
     name: "Key A",
@@ -163,4 +163,5 @@ subtestMain([[0,4,0]], "")
 subtestMain([[0,1,1]], "2A3A,2A3B,2A3C,2B3A,2B3B,2B3C,2C3A,2C3B,2C3C")
 subtestMain([[1,1,1]], "1A2A3A,1A2A3B,1A2A3C,1A2B3A,1A2B3B,1A2B3C,1A2C3A,1A2C3B,1A2C3C,1B2A3A,1B2A3B,1B2A3C,1B2B3A,1B2B3B,1B2B3C,1B2C3A,1B2C3B,1B2C3C,1C2A3A,1C2A3B,1C2A3C,1C2B3A,1C2B3B,1C2B3C,1C2C3A,1C2C3B,1C2C3C")
 subtestMain([[0,1,2]], "2A3A3B,2A3A3C,2A3B3C,2B3A3B,2B3A3C,2B3B3C,2C3A3B,2C3A3C,2C3B3C")
+subtestMain([[2,3,2]], "1A1B2A2B2C3A3B,1A1B2A2B2C3A3C,1A1B2A2B2C3B3C,1A1C2A2B2C3A3B,1A1C2A2B2C3A3C,1A1C2A2B2C3B3C,1B1C2A2B2C3A3B,1B1C2A2B2C3A3C,1B1C2A2B2C3B3C")
 console.log("combinations test successful")

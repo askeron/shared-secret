@@ -15,12 +15,7 @@ function combinationModule() {
     }
 
     function getCombinationsForRootCombinations(rootCombinations) {
-        const combinations = [];
-        for (const rootCombination of rootCombinations) {
-            for (const x of getCombinationsForRootCombination(rootCombination)) {
-                combinations.push(x);
-            }
-        }
+        const combinations = rootCombinations.flatMap(x => getCombinationsForRootCombination(x));
         return getCleanedUpCombinations(combinations);
     }
 
@@ -114,7 +109,7 @@ function combinationModule() {
     function getCleanedUpCombinations(inputCombinations) {
         const combinationJsons = [];
         for (const inputCombination of inputCombinations) {
-            const combination = getCleanedUpCombination(inputCombination);
+            const combination = getDistinctElementsSorted(inputCombination);
             const combinationJson = JSON.stringify(combination);
             if (!combinationJsons.includes(combinationJson)) {
                 combinationJsons.push(combinationJson)
@@ -124,13 +119,16 @@ function combinationModule() {
         return getDeduplicatedCombinations(combinationJsons.map(x => JSON.parse(x)));
     }
 
-    function getCleanedUpCombination(inputCombination) {
-        const result = [];
-        for (const x of inputCombination) {
-            if (!result.includes(x)) {
-                result.push(x)
-            }
-        }
+    function getDistinctElementsSorted(array) {
+        return getSortedElements(getDistinctElements(array));
+    }
+
+    function getDistinctElements(array) {
+        return [...new Set(array)];
+    }
+
+    function getSortedElements(array) {
+        const result = array.map(x => x);
         result.sort();
         return result;
     }

@@ -78,40 +78,25 @@ assertEqualObject(getStaticCombinations("BCD,ACD,ABD,ABC"),{
     ]
   })
 
-const expectedStaticCombinationsIncludingCombinations = [
-    [
-        "A",
-        "B",
-        "C"
-    ],
-    [
-        "A",
-        "B",
-        "D"
-    ],
-    [
-        "A",
-        "C",
-        "D"
-    ],
-    [
-        "B",
-        "C",
-        "D"
-    ]
-    ]
     assertEqualObject(combinationModule().getCombinationsForRootCombinations([
-    getStaticCombinations("BCD,ACD,ABD,ABC"),
-    ]), expectedStaticCombinationsIncludingCombinations)
-    assertEqualObject(combinationModule().getCombinationsForRootCombinations([
-    getStaticCombinations("BCD,ACD"),
-    getStaticCombinations("ABD,ABC"),
-    ]), expectedStaticCombinationsIncludingCombinations)
-    assertEqualObject(combinationModule().getCombinationsForRootCombinations([
-    getStaticCombinations("BCD,ACD,ABD"),
-    getStaticCombinations("ABD,ABC"),
-    ]), expectedStaticCombinationsIncludingCombinations)
+        getStaticCombinations("BCD,ACD,ABD,ABC"),
+        ]).map(x => x.join("")).join(","), "ABC,ABD,ACD,BCD")
 
+    assertEqualObject(combinationModule().getCombinationsForRootCombinations([
+        getStaticCombinations("BCD,ACD"),
+        getStaticCombinations("ABD,ABC"),
+        ]).map(x => x.join("")).join(","), "ABC,ABD,ACD,BCD")
+
+    assertEqualObject(combinationModule().getCombinationsForRootCombinations([
+        getStaticCombinations("BCD,ACD,ABD"),
+        getStaticCombinations("ABD,ABC"),
+        ]).map(x => x.join("")).join(","), "ABC,ABD,ACD,BCD")
+
+    assertEqualObject(combinationModule().getCombinationsForRootCombinations([
+        getStaticCombinations("BCD,ACD,ABD,ABC"),
+        getStaticCombinations("BCD,AB,ABD,ACD"),
+        ]).map(x => x.join("")).join(","), "AB,ACD,BCD")
+        
 function getCombConfigForValidAmountCombinations(validAmountCombinations) {
     return {
         "type": "elementsAndAmountsCombinations",

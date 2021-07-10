@@ -1,9 +1,9 @@
-function combinationModule(keys) {
-    function areKeysValid() {
-        return !hasArrayDuplicates(getAllKeyNames()) && !hasArrayDuplicates(keys.map(x => x.pseudonym))
+function combinationModule() {
+    function areKeysValid(keys) {
+        return !hasArrayDuplicates(getAllKeyNames(keys)) && !hasArrayDuplicates(keys.map(x => x.pseudonym))
     }
 
-    function getAllKeyNames() {
+    function getAllKeyNames(keys) {
         return keys.map(x => x.name);
     }
 

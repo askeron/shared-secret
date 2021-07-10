@@ -11,7 +11,6 @@ let config = {
         {
             "name": "Margot",
             "pseudonym": "455e34dd",
-            "group": "Gruppe 1",
         },
     ],
     "combinations":[
@@ -37,24 +36,19 @@ let config = {
             "elements": [
                 {
                     "type": "keyNamesList",
+                    "name": "Gruppe Familie",
                     "keyNames": [
                         "Sven",
                         "Bjoern",
                     ]
                 },
                 {
-                    "type": "group",
-                    "group": "Gruppe 1"
+                    "type": "keyNamesList",
+                    "name": "Gruppe Bekannte",
+                    "keyNames": [
+                        "Margot",
+                    ]
                 },
-                /*
-                {
-                    "type": "group",
-                    "group": "Gruppe 2"
-                },
-                {
-                    "type": "group",
-                    "group": "Gruppe 3"
-                },*/
             ],
             "validAmountCombinations": [
                 [1,1]

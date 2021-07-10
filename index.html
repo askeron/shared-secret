@@ -2,25 +2,23 @@
     <body>
         <link rel="stylesheet" href="style.css"/>
         <h1>Shared Secret</h1>
-        <h2>TODO: write tests for combinations.js</h2>
-        <h2>TODO: fix bugs in combinations.js</h2>
         <h2>TODO: decrypt.html</h2>
         <script src="qrious.js"></script>
         <script src="secrets.js"></script>
         <script src="config.js"></script>
         <script src="combinations.js"></script>
         <h2>secrets</h2>
-        <textarea id="secrets" rows="20" cols="80" onchange="onChange()"></textarea>
+        <textarea id="secrets" rows="20" cols="80" onchange="onChange()" style="width: 100%"></textarea>
         <br/>
         <button onclick="addNewRandomSecret()">add new random secret</button>
         <h2>config</h2>
-        <textarea id="config" rows="20" cols="80" onchange="onChange()"></textarea>
-        <h2>decrypt informations (save this with the encrypted zips)</h2>
-        <textarea id="decryptInformations" rows="20" cols="80"></textarea>
-        <h2>temporary output</h2>
-        <textarea id="output" rows="20" cols="80"></textarea>
+        <textarea id="config" rows="20" cols="80" onchange="onChange()" style="width: 100%"></textarea>
+        <h2>decrypt informations (save as "decryptInformations.js" this with the encrypted zips)</h2>
+        <textarea id="decryptInformations" rows="20" cols="80" style="width: 100%"></textarea>
+        <h2 style="display: none">temporary output</h2>
+        <textarea id="output" rows="20" cols="80" style="display: none; width: 100%"></textarea>
         <h2>batchfile for zips</h2>
-        <textarea id="batchfile" rows="20" cols="80"></textarea>
+        <textarea id="batchfile" rows="20" cols="80" style="width: 100%"></textarea>
         <script src="app.js"></script>
         <div id="qrcodes" style="text-align: center; width: 100%;"></div>
     </body>

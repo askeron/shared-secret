@@ -107,16 +107,10 @@ function combinationModule() {
 
 
     function getCleanedUpCombinations(inputCombinations) {
-        const combinationJsons = [];
-        for (const inputCombination of inputCombinations) {
-            const combination = getDistinctElementsSorted(inputCombination);
-            const combinationJson = JSON.stringify(combination);
-            if (!combinationJsons.includes(combinationJson)) {
-                combinationJsons.push(combinationJson)
-            }
-        }
-        combinationJsons.sort();
-        return getDeduplicatedCombinations(combinationJsons.map(x => JSON.parse(x)));
+        const distinctAndSortedCombinations = getDistinctElementsSorted(
+            inputCombinations.map(x => JSON.stringify(getDistinctElementsSorted(x)))
+            ).map(x => JSON.parse(x))
+        return getDeduplicatedCombinations(distinctAndSortedCombinations);
     }
 
     function getDistinctElementsSorted(array) {

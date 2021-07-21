@@ -66,7 +66,7 @@ async function onChange() {
         const preHashedPassword = combinationKeys.map(x => x.secret).join('')
         const password = await getSha384HexString(preHashedPassword)
         const filenameSegment = combinationKeys.map(x => x.pseudonym).join('-')
-        return "you can decrypt encrypted-SHA-384-"+filenameSegment+".7z with the password "+password
+        return "with the password "+password+" you can decrypt encrypted-SHA-384-"+filenameSegment+".7z"
     }))))
     
     document.getElementById("output").value = "found "+combinationTexts.length+" useable combinations with the given keys\n"+combinationTexts.join("\n")
@@ -81,7 +81,9 @@ onChange()
 function onScanSuccess(decodedText, decodedResult) {
     // handle the scanned code as you like, for example:
     console.log(`Code matched = ${decodedText}`, decodedResult)
-    
+    if (decodedText.length == 73 && decodedText.charAt(8) == "-") {
+        addKey(decodedText.substring(0,8), decodedText.substring(9,73))
+    }
 }
 
 function onScanFailure(error) {

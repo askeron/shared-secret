@@ -93,7 +93,7 @@ async function onChange() {
         decryptInformations.keys.forEach(x => {
             x.checksum = combinedKeys.filter(y => y.pseudonym == x.pseudonym)[0].checksum
         })
-        document.getElementById("decryptInformations").value = "let decryptInformations = " + JSON.stringify(decryptInformations, null, 1)
+        document.getElementById("decryptInformations").value = "let decryptInformations = " + JSON.stringify(decryptInformations, null, 2)
         const combinations = decryptInformations.combinations.map(combination => {
             return {
                 keys: combination.map(keyName => {

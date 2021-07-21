@@ -71,20 +71,8 @@ async function onChange() {
     if (!keysValid) {
         document.getElementById("decryptInformations").value = "keys invalid"
     } else {
-        const combinedKeys = JSON.parse(JSON.stringify(config.keys))
-        for (x of combinedKeys) {
-            const filteredSecrets = secrets.filter(y => y.pseudonym == x.pseudonym)
-            if (filteredSecrets.length < 1) {
-                const errorString = "could not find secret for pseudonym "+x.pseudonym
-                document.getElementById("output").value = errorString
-                throw errorString
-            }
-            x.secret = filteredSecrets[0].secret
-            x.checksum = (await getSha384HexString("checksum-" + x.pseudonym + "-" + x.secret)).substring(0,4)
-        }
-
         document.getElementById("qrcodes").innerHTML = ""
-        for (x of combinedKeys) {
+        for (x of config.keys) {
             const div = document.createElement("div")
             div.classList.add("key")
             const keylabel1 = document.createElement("div")
@@ -120,6 +108,18 @@ async function onChange() {
             document.getElementById("qrcodes").appendChild(div)
         }
 
+        const combinedKeys = JSON.parse(JSON.stringify(config.keys))
+        for (x of combinedKeys) {
+            const filteredSecrets = secrets.filter(y => y.pseudonym == x.pseudonym)
+            if (filteredSecrets.length < 1) {
+                const errorString = "could not find secret for pseudonym "+x.pseudonym
+                document.getElementById("output").value = errorString
+                throw errorString
+            }
+            x.secret = filteredSecrets[0].secret
+            x.checksum = (await getSha384HexString("checksum-" + x.pseudonym + "-" + x.secret)).substring(0,4)
+        }
+
         decryptInformations = {}
         decryptInformations.readme = "Jeder Key hat ein Pseudonym von 8-Hexchars und ein Secret von 64-Hexchars. Die 7z-Dateien heissen z.b. 'encrypted-SHA-384-37caa23a-455e34dd-516da482.7z'. Da heisst, dass man diese Datei entschluesseln kann indem man die Secrets der drei Key 37caa23a, 455e34dd und 516da482 genau in der Reinfolge hintereinander schreibt (also in dem fall 192 Hexchars) und diese dann mit SHA-384 hasht und das Ergebnis sich wieder in Hex ausgeben laesst. Das ist dann das Passwort um die 7z-Datei zu entpacken."
         decryptInformations.keys = JSON.parse(JSON.stringify(config.keys))
@@ -128,7 +128,7 @@ async function onChange() {
         })
         decryptInformations.combinations = combinationModule().getCombinationsForRootCombinations(config.combinations)
         decryptInformations.combinationsConfiguration = config.combinations
-        
+
         decryptInformations.keys.forEach(x => {
             x.checksum = combinedKeys.filter(y => y.pseudonym == x.pseudonym)[0].checksum
         })

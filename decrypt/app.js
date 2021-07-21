@@ -82,7 +82,7 @@ let lastScanned = undefined
 
 function onScanSuccess(decodedText, decodedResult) {
     // handle the scanned code as you like, for example:
-    console.log(`Code matched = ${decodedText}`, decodedResult)
+    //console.log(`Code matched = ${decodedText}`, decodedResult)
     if (lastScanned != decodedText && decodedText.length == 73 && decodedText.charAt(8) == "-") {
         addKey(decodedText.substring(0,8), decodedText.substring(9,73))
         lastScanned = decodedText
@@ -92,7 +92,7 @@ function onScanSuccess(decodedText, decodedResult) {
 function onScanFailure(error) {
     // handle scan failure, usually better to ignore and keep scanning.
     // for example:
-    console.warn(`Code scan error = ${error}`)
+    //console.warn(`Code scan error = ${error}`)
 }
 
 let html5QrcodeScanner = new Html5QrcodeScanner(

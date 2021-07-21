@@ -69,7 +69,7 @@ async function onChange() {
         return "with the password "+password+" you can decrypt encrypted-SHA-384-"+filenameSegment+".7z"
     }))))
     
-    document.getElementById("output").value = "found "+combinationTexts.length+" useable combinations with the given keys\n"+combinationTexts.join("\n")
+    document.getElementById("output").value = ""+keys.length+" key added\nfound "+combinationTexts.length+" useable combinations with the given keys\n"+combinationTexts.join("\n")
 }
 
 document.getElementById("decrypt-informations").value = JSON.stringify(decryptInformations, null, 2)

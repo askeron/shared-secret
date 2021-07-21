@@ -48,7 +48,6 @@ async function onChange() {
     for (const key of enhancedKeysWithSecret) {
         key.calculatedChecksum = (await getSha384HexString("checksum-" + key.pseudonym + "-" + key.secret)).substring(0,4)
     }
-    console.log(enhancedKeysWithSecret)
 
     const keysWithInvalidChecksum = enhancedKeysWithSecret.filter(x => x.checksum != x.calculatedChecksum)
 

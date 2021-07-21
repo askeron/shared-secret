@@ -1,0 +1,23 @@
+<html>
+    <body>
+        <h1>Shared Secret</h1>
+        <script src="decrypt-informations.js"></script>
+        <script src="html5-qrcode.min.js"></script><!-- from https://github.com/mebjas/html5-qrcode -->
+        <h2>decrypt-informations</h2>
+        <textarea id="decrypt-informations" rows="20" cols="80" onchange="onChange()" style="width: 100%"></textarea>
+        <h2>keys</h2>
+        <textarea id="keys" rows="20" cols="80" onchange="onChange()" style="width: 100%"></textarea>
+        <h2>add key manually</h2>
+        Pseudonym: <input id="pseudonym" rows="20" cols="80" onchange="onChange()" style="width: 100%"></textarea>
+        <br/>
+        Secret: <input id="secret" rows="20" cols="80" onchange="onChange()" style="width: 100%"></textarea>
+        <br/>
+        <button onclick="addKeyManually()">add key</button>
+        <h2>add key via qr-code</h2>
+        <div id="reader" width="600px"></div>
+        <button onclick="scanKey()">scan key</button>
+        <h2>output</h2>
+        <textarea id="output" rows="20" cols="80" style="width: 100%"></textarea>
+        <script src="app.js"></script>
+    </body>
+</html>

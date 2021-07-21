@@ -79,7 +79,6 @@ async function onChange() {
         })
         decryptInformations.combinations = combinationModule().getCombinationsForRootCombinations(config.combinations)
         decryptInformations.combinationsConfiguration = config.combinations
-        document.getElementById("decryptInformations").value = "const decryptInformations = " + JSON.stringify(decryptInformations, null, 1)
         const combinedKeys = JSON.parse(JSON.stringify(config.keys))
         for (x of combinedKeys) {
             const filteredSecrets = secrets.filter(y => y.pseudonym == x.pseudonym)
@@ -91,6 +90,10 @@ async function onChange() {
             x.secret = filteredSecrets[0].secret
             x.checksum = (await getSha384HexString("checksum-" + x.pseudonym + "-" + x.secret)).substring(0,4)
         }
+        decryptInformations.keys.forEach(x => {
+            x.checksum = combinedKeys.filter(y => y.pseudonym == x.pseudonym)[0].checksum
+        })
+        document.getElementById("decryptInformations").value = "let decryptInformations = " + JSON.stringify(decryptInformations, null, 1)
         const combinations = decryptInformations.combinations.map(combination => {
             return {
                 keys: combination.map(keyName => {

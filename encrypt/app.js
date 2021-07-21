@@ -68,11 +68,14 @@ async function onChange() {
     secrets = JSON.parse(document.getElementById("secrets").value)
     config = JSON.parse(document.getElementById("config").value)
     const keysValid = combinationModule().areKeysValid(config.keys)
+    document.getElementById("decryptInformations").value = ""
+    document.getElementById("output").value = ""
+    document.getElementById("batchfile").value = ""
     if (!keysValid) {
         document.getElementById("decryptInformations").value = "keys invalid"
     } else {
         document.getElementById("qrcodes").innerHTML = ""
-        for (x of config.keys) {
+        for (x of secrets) {
             const div = document.createElement("div")
             div.classList.add("key")
             const keylabel1 = document.createElement("div")

@@ -71,14 +71,6 @@ async function onChange() {
     if (!keysValid) {
         document.getElementById("decryptInformations").value = "keys invalid"
     } else {
-        decryptInformations = {}
-        decryptInformations.readme = "Jeder Key hat ein Pseudonym von 8-Hexchars und ein Secret von 64-Hexchars. Die 7z-Dateien heissen z.b. 'encrypted-SHA-384-37caa23a-455e34dd-516da482.7z'. Da heisst, dass man diese Datei entschluesseln kann indem man die Secrets der drei Key 37caa23a, 455e34dd und 516da482 genau in der Reinfolge hintereinander schreibt (also in dem fall 192 Hexchars) und diese dann mit SHA-384 hasht und das Ergebnis sich wieder in Hex ausgeben laesst. Das ist dann das Passwort um die 7z-Datei zu entpacken."
-        decryptInformations.keys = JSON.parse(JSON.stringify(config.keys))
-        decryptInformations.keys.forEach(x => {
-            x.key = undefined
-        })
-        decryptInformations.combinations = combinationModule().getCombinationsForRootCombinations(config.combinations)
-        decryptInformations.combinationsConfiguration = config.combinations
         const combinedKeys = JSON.parse(JSON.stringify(config.keys))
         for (x of combinedKeys) {
             const filteredSecrets = secrets.filter(y => y.pseudonym == x.pseudonym)
@@ -90,31 +82,8 @@ async function onChange() {
             x.secret = filteredSecrets[0].secret
             x.checksum = (await getSha384HexString("checksum-" + x.pseudonym + "-" + x.secret)).substring(0,4)
         }
-        decryptInformations.keys.forEach(x => {
-            x.checksum = combinedKeys.filter(y => y.pseudonym == x.pseudonym)[0].checksum
-        })
-        document.getElementById("decryptInformations").value = "let decryptInformations = " + JSON.stringify(decryptInformations, null, 2)
-        const combinations = decryptInformations.combinations.map(combination => {
-            return {
-                keys: combination.map(keyName => {
-                    return combinedKeys.filter(x => x.name == keyName)[0]
-                })
-            }
-        })
-        for (combination of combinations) {
-            sortBy(combination.keys, x => x.pseudonym)
-            combination.preHashedPassword = combination.keys.map(x => x.secret).join('')
-            combination.password = await getSha384HexString(combination.preHashedPassword)
-            combination.filenameSegment = combination.keys.map(x => x.pseudonym).join('-')
-        }
-        document.getElementById("output").value = JSON.stringify(combinations, null, 1)
 
-        // tools\7-ZipPortable\App\7-Zip\7z.exe a output/###HASH_FUNCTION_NAME###-###KEY_INDEX_STRING###.7z -p###PASSWORD### -mhe data/secret.txt
-        const batchfile = combinations.map(x => "tools\\7-ZipPortable\\App\\7-Zip\\7z.exe a encrypted-SHA-384-"+x.filenameSegment+".7z -p"+x.password+" -mhe secret.txt").join('\n')
-        document.getElementById("batchfile").value = batchfile+"\n"
-        
         document.getElementById("qrcodes").innerHTML = ""
-
         for (x of combinedKeys) {
             const div = document.createElement("div")
             div.classList.add("key")
@@ -150,6 +119,39 @@ async function onChange() {
             div.appendChild(keylabel2)
             document.getElementById("qrcodes").appendChild(div)
         }
+
+        decryptInformations = {}
+        decryptInformations.readme = "Jeder Key hat ein Pseudonym von 8-Hexchars und ein Secret von 64-Hexchars. Die 7z-Dateien heissen z.b. 'encrypted-SHA-384-37caa23a-455e34dd-516da482.7z'. Da heisst, dass man diese Datei entschluesseln kann indem man die Secrets der drei Key 37caa23a, 455e34dd und 516da482 genau in der Reinfolge hintereinander schreibt (also in dem fall 192 Hexchars) und diese dann mit SHA-384 hasht und das Ergebnis sich wieder in Hex ausgeben laesst. Das ist dann das Passwort um die 7z-Datei zu entpacken."
+        decryptInformations.keys = JSON.parse(JSON.stringify(config.keys))
+        decryptInformations.keys.forEach(x => {
+            x.key = undefined
+        })
+        decryptInformations.combinations = combinationModule().getCombinationsForRootCombinations(config.combinations)
+        decryptInformations.combinationsConfiguration = config.combinations
+        
+        decryptInformations.keys.forEach(x => {
+            x.checksum = combinedKeys.filter(y => y.pseudonym == x.pseudonym)[0].checksum
+        })
+        document.getElementById("decryptInformations").value = "let decryptInformations = " + JSON.stringify(decryptInformations, null, 2)
+        const combinations = decryptInformations.combinations.map(combination => {
+            return {
+                keys: combination.map(keyName => {
+                    return combinedKeys.filter(x => x.name == keyName)[0]
+                })
+            }
+        })
+        for (combination of combinations) {
+            sortBy(combination.keys, x => x.pseudonym)
+            combination.preHashedPassword = combination.keys.map(x => x.secret).join('')
+            combination.password = await getSha384HexString(combination.preHashedPassword)
+            combination.filenameSegment = combination.keys.map(x => x.pseudonym).join('-')
+        }
+        document.getElementById("output").value = JSON.stringify(combinations, null, 1)
+
+        // tools\7-ZipPortable\App\7-Zip\7z.exe a output/###HASH_FUNCTION_NAME###-###KEY_INDEX_STRING###.7z -p###PASSWORD### -mhe data/secret.txt
+        const batchfile = combinations.map(x => "tools\\7-ZipPortable\\App\\7-Zip\\7z.exe a encrypted-SHA-384-"+x.filenameSegment+".7z -p"+x.password+" -mhe secret.txt").join('\n')
+        document.getElementById("batchfile").value = batchfile+"\n"
+        
     }
 }
 document.getElementById("secrets").value = JSON.stringify(secrets, null, 2)

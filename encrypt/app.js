@@ -83,8 +83,9 @@ async function onChange() {
             const keylabel3 = document.createElement("div")
             const keylabel4 = document.createElement("div")
             const keylabelHtml = "Pseudonym: "+x.pseudonym+" - Secret: <br>"+ (splitStringAfter32Character(x.secret).join('<br/>'))
-            keylabel1.innerHTML = keylabelHtml
-            keylabel2.innerHTML = keylabelHtml
+            const keylabelNamePrefixHtml = "Name: "+x.name+" - "
+            keylabel1.innerHTML = keylabelNamePrefixHtml + keylabelHtml
+            keylabel2.innerHTML = keylabelNamePrefixHtml + keylabelHtml
             keylabel3.innerHTML = keylabelHtml
             keylabel4.innerHTML = keylabelHtml
             keylabel1.classList.add("keylabel")
@@ -120,6 +121,11 @@ async function onChange() {
                 throw errorString
             }
             x.secret = filteredSecrets[0].secret
+            if (x.name != filteredSecrets[0].name) {
+                const errorString = "name mismatch for pseudonym "+x.pseudonym
+                document.getElementById("output").value = errorString
+                throw errorString
+            }
             x.checksum = (await getSha384HexString("checksum-" + x.pseudonym + "-" + x.secret)).substring(0,4)
         }
 

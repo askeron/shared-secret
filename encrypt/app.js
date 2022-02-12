@@ -117,13 +117,13 @@ async function onChange() {
             const filteredSecrets = secrets.filter(y => y.pseudonym == x.pseudonym)
             if (filteredSecrets.length < 1) {
                 const errorString = "could not find secret for pseudonym "+x.pseudonym
-                document.getElementById("output").value = errorString
+                document.getElementById("decryptInformations").value = errorString
                 throw errorString
             }
             x.secret = filteredSecrets[0].secret
             if (x.name != filteredSecrets[0].name) {
                 const errorString = "name mismatch for pseudonym "+x.pseudonym
-                document.getElementById("output").value = errorString
+                document.getElementById("decryptInformations").value = errorString
                 throw errorString
             }
             x.checksum = (await getSha384HexString("checksum-" + x.pseudonym + "-" + x.secret)).substring(0,4)

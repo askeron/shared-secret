@@ -41,7 +41,7 @@ function addNewRandomSecret() {
     if (secrets.some(x => x.secret === secret)) {
         addNewRandomSecret()
     } else {
-        secrets.push({pseudonym, secret})
+        secrets.push({name: "", pseudonym, secret})
         document.getElementById("secrets").value = JSON.stringify(secrets, null, 2)
         onChange()
     }

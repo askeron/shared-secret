@@ -141,6 +141,13 @@ async function onChange() {
         decryptInformations.keys.forEach(x => {
             x.checksum = combinedKeys.filter(y => y.pseudonym == x.pseudonym)[0].checksum
         })
+
+        decryptInformations.combinations.flatMap(x => x).forEach(name => {
+            if (decryptInformations.keys.filter(x => name == x.name).length == 0) {
+                throw new Error(`could not find key for name "${name}"`)
+            }
+        })
+
         document.getElementById("decryptInformations").value = "let decryptInformations = " + JSON.stringify(decryptInformations, null, 2)
         const combinations = decryptInformations.combinations.map(combination => {
             return {

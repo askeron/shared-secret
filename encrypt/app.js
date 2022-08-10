@@ -151,7 +151,7 @@ async function onChange() {
         })
         for (combination of combinations) {
             sortBy(combination.keys, x => x.pseudonym)
-            combination.preHashedPassword = combination.keys.map(x => combinedKeys.filter(y => y.pseudonym == x.pseudonym)[0].secret).join('')
+            combination.preHashedPassword = combination.keys.map(x => x.secret).join('')
             combination.password = await getSha384HexString(combination.preHashedPassword)
             combination.filenameSegment = combination.keys.map(x => x.pseudonym).join('-')
         }

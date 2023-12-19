@@ -81,7 +81,7 @@ let lastScanned = undefined
 
 function onScanSuccess(decodedText, decodedResult) {
     // handle the scanned code as you like, for example:
-    //console.log(`Code matched = ${decodedText}`, decodedResult)
+    console.log(`Code matched = ${decodedText}`, decodedResult)
     if (lastScanned != decodedText && decodedText.length == 73 && decodedText.charAt(8) == "-") {
         addKey(decodedText.substring(0,8), decodedText.substring(9,73))
         lastScanned = decodedText
